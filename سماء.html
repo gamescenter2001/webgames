@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>سماء — متجر ألعاب الكمبيوتر</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg1:#e9f6ff;--bg2:#b9e0ff;--bg3:#7cc0f5;--ink:#0b2a4a;--muted:#4f6f8f;
+  --glass:rgba(255,255,255,.45);--glass-hi:rgba(255,255,255,.7);--line:rgba(255,255,255,.75);
+  --modal:rgba(255,255,255,.62);--field:rgba(255,255,255,.55);--shadow:rgba(30,90,150,.22);
+  --blue:#0a84ff;--blue2:#5ac8fa;--gold:#f59e0b;--danger:#ff453a;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#0a1d36;--bg2:#12406e;--bg3:#1d6fb0;--ink:#eaf5ff;--muted:#9cc3e6;--glass:rgba(255,255,255,.1);--glass-hi:rgba(255,255,255,.2);--line:rgba(255,255,255,.25);--modal:rgba(18,50,90,.65);--field:rgba(0,0,0,.25);--shadow:rgba(0,0,0,.4)}}
+:root[data-theme="dark"]{--bg1:#0a1d36;--bg2:#12406e;--bg3:#1d6fb0;--ink:#eaf5ff;--muted:#9cc3e6;--glass:rgba(255,255,255,.1);--glass-hi:rgba(255,255,255,.2);--line:rgba(255,255,255,.25);--modal:rgba(18,50,90,.65);--field:rgba(0,0,0,.25);--shadow:rgba(0,0,0,.4)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;min-height:100vh;font-family:'Cairo',system-ui,'Segoe UI',Tahoma,sans-serif;color:var(--ink);background-color:var(--bg2);
+  background-image:radial-gradient(700px 500px at 90% 0%,rgba(255,255,255,.75),transparent 65%),radial-gradient(800px 600px at 0% 100%,var(--bg3),transparent 70%),linear-gradient(170deg,var(--bg1),var(--bg2));background-attachment:fixed}
+body::before{content:"";position:fixed;inset:auto 0 0 0;height:38vh;pointer-events:none;opacity:.55;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320' preserveAspectRatio='none'%3E%3Cpath fill='%23ffffff' fill-opacity='.45' d='M0 192c120-60 240-60 360 0s240 60 360 0 240-60 360 0 240 60 360 0v128H0z'/%3E%3Cpath fill='%23ffffff' fill-opacity='.35' d='M0 256c160-70 300-30 480 10s300 20 480-30 300-10 480 20v64H0z'/%3E%3C/svg%3E") bottom/100% 100% no-repeat}
+button{font-family:inherit;color:inherit;cursor:pointer}
+.glass{background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(20px) saturate(170%);-webkit-backdrop-filter:blur(20px) saturate(170%);box-shadow:0 10px 36px var(--shadow),inset 0 1px 0 rgba(255,255,255,.8)}
+.layout{position:relative;display:flex;gap:18px;padding:18px;min-height:100vh}
+.side{width:230px;flex-shrink:0;border-radius:24px;padding:18px 12px;position:sticky;top:18px;height:calc(100vh - 36px);display:flex;flex-direction:column;gap:6px}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 10px 16px;font-weight:800;font-size:1.35rem}
+.brand i{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-style:normal;background:linear-gradient(135deg,var(--blue2),var(--blue));box-shadow:0 6px 18px rgba(10,132,255,.45)}
+.cat{display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;border-radius:14px;border:1px solid transparent;background:transparent;font-size:.98rem;font-weight:600;text-align:right;transition:.2s}
+.cat:hover{background:var(--glass-hi)}
+.cat:active{transform:scale(.97)}
+.cat.on{background:var(--glass-hi);border-color:var(--line);box-shadow:0 4px 16px var(--shadow)}
+.cat b{margin-inline-start:auto;font-size:.76rem;background:rgba(10,132,255,.15);color:var(--blue);padding:1px 8px;border-radius:99px}
+.spacer{flex:1}
+main{flex:1;min-width:0}
+.top{display:flex;gap:10px;align-items:center;border-radius:20px;padding:10px;position:sticky;top:calc(18px + env(safe-area-inset-top,0px));z-index:20}
+.search{flex:1;display:flex;align-items:center;gap:8px;background:var(--field);border:1px solid var(--line);border-radius:14px;padding:0 12px}
+.search input{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--ink);font:inherit;padding:12px 0}
+.search input::placeholder{color:var(--muted)}
+.search input::-webkit-search-cancel-button{display:none}
+.x{border:0;background:rgba(10,132,255,.15);color:var(--blue);width:26px;height:26px;border-radius:50%;display:none;font-size:.8rem}
+.x.show{display:block}
+.btn{padding:11px 20px;border-radius:14px;border:1px solid var(--line);font-weight:700;font-size:.92rem;background:var(--glass-hi);transition:.2s;white-space:nowrap}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--shadow)}
+.btn:active{transform:scale(.96)}
+.btn.pri{background:linear-gradient(135deg,var(--blue2),var(--blue));color:#fff;border-color:transparent;box-shadow:0 8px 22px rgba(10,132,255,.4)}
+.btn.dng{background:linear-gradient(135deg,#ff6b6b,var(--danger));color:#fff;border-color:transparent;box-shadow:0 8px 22px rgba(255,69,58,.35)}
+.chips{display:none;gap:8px;overflow-x:auto;padding:14px 2px 4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips .cat{width:auto;flex-shrink:0;border-radius:99px;border-color:var(--line);background:var(--glass);padding:8px 16px}
+.chips .cat.on{background:linear-gradient(135deg,var(--blue2),var(--blue));color:#fff;border-color:transparent}
+.sec{display:flex;justify-content:space-between;align-items:baseline;margin:22px 4px 12px}
+.sec h2{margin:0;font-size:1.35rem}.sec span{color:var(--muted);font-size:.9rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.card{border-radius:24px;padding:12px;display:flex;flex-direction:column;gap:12px;transition:.25s;cursor:pointer}
+.card:hover{transform:translateY(-5px);background:var(--glass-hi)}
+.cover{height:150px;border-radius:16px;position:relative;display:grid;place-items:center;font-size:3.8rem;box-shadow:inset 0 0 0 1px rgba(255,255,255,.4)}
+.cover span{filter:drop-shadow(0 6px 12px rgba(0,0,0,.35))}
+.cover em{position:absolute;top:8px;right:8px;font-style:normal;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:99px;background:rgba(255,255,255,.6);color:#0b2a4a;backdrop-filter:blur(8px)}
+.card h3{margin:0;font-size:1.05rem}
+.card small{color:var(--muted);direction:ltr;display:block;text-align:right}
+.facts{display:flex;gap:8px;font-size:.85rem;font-weight:600}
+.facts span{padding:3px 10px;border-radius:99px;background:rgba(10,132,255,.12)}
+.facts .r{color:var(--gold);background:rgba(245,158,11,.15)}
+.acts{display:flex;gap:8px;margin-top:auto}
+.acts .btn{flex:1;padding:10px 8px;font-size:.85rem}
+.empty{grid-column:1/-1;text-align:center;padding:48px 20px;border-radius:24px;color:var(--muted)}
+.empty div{font-size:3rem}
+/* Modal */
+.ov{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(10,40,80,.35);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.ov.show{display:flex;animation:fade .2s}
+.modal{width:min(540px,100%);max-height:calc(100vh - 40px);overflow:auto;border-radius:28px;padding:24px;background:var(--modal);animation:pop .3s cubic-bezier(.2,1.3,.4,1)}
+.modal.out{animation:out .2s ease forwards}
+@keyframes fade{from{opacity:0}}
+@keyframes pop{from{opacity:0;transform:scale(.88) translateY(14px)}}
+@keyframes out{to{opacity:0;transform:scale(.92) translateY(8px)}}
+.modal h3{margin:0 0 4px;font-size:1.4rem}.modal p{line-height:1.9;margin:8px 0;color:var(--muted)}
+.mh{height:110px;border-radius:18px;display:grid;place-items:center;font-size:3.4rem;margin-bottom:14px}
+.req{width:100%;border-collapse:collapse;margin:10px 0;font-size:.92rem}
+.req td{padding:9px 10px;border-bottom:1px solid var(--line)}.req td:first-child{font-weight:700;width:34%}
+.note{font-size:.82rem;padding:10px 12px;border-radius:12px;background:rgba(10,132,255,.1);color:var(--ink)}
+.mact{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}.mact .btn{flex:1;min-width:120px}
+.fld{display:flex;flex-direction:column;gap:5px;margin:10px 0;font-weight:600;font-size:.9rem}
+.fld input,.fld select{background:var(--field);border:1px solid var(--line);border-radius:12px;padding:11px 12px;color:var(--ink);font:inherit;outline:0}
+.fld input:focus,.fld select:focus{border-color:var(--blue)}
+.big{font-size:3rem;text-align:center}.ctr{text-align:center}
+.mute{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));left:16px;z-index:50;width:48px;height:48px;border-radius:50%;font-size:1.2rem;display:grid;place-items:center;transition:.2s}
+.mute:active{transform:scale(.9)}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:860px){
+  .layout{padding:10px;display:block}
+  .side{display:none}
+  .chips{display:flex}
+  .top{top:calc(10px + env(safe-area-inset-top,0px))}
+  .grid{grid-template-columns:1fr}
+  .btn.add span{display:none}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="side glass" id="side">
+    <div class="brand"><i>☁️</i> سماء</div>
+    <div id="cats"></div>
+    <div class="spacer"></div>
+    <button class="btn pri" data-add>➕ إضافة لعبة</button>
+  </aside>
+  <main>
+    <header class="top glass">
+      <label class="search">🔍<input id="q" type="search" placeholder="ابحث بالاسم العربي أو الإنجليزي أو التصنيف..." autocomplete="off"><button class="x" id="clr" aria-label="مسح البحث">✕</button></label>
+      <button class="btn add" data-add>➕<span> إضافة لعبة</span></button>
+    </header>
+    <nav class="chips" id="chips"></nav>
+    <div class="sec"><h2 id="secT">كل الألعاب</h2><span id="secC"></span></div>
+    <div class="grid" id="grid"></div>
+  </main>
+</div>
+<button class="mute glass" id="mute" aria-label="كتم الصوت">🔊</button>
+<div class="ov" id="ov"><div class="modal glass" id="modal" role="dialog" aria-modal="true"></div></div>
+
+<script>
+(function(){
+'use strict';
+/* =====================================================
+   بيانات الألعاب — انسخ أي كائن وعدّل عليه لإضافة لعبة جديدة
+   cat: action | horror | open | light
+   url: صفحة رسمية (متجر أو موقع المطوّر) أو رابط تملك حق توزيعه
+   ===================================================== */
+var CATS=[{id:'all',n:'كل الألعاب',i:'🎮'},{id:'action',n:'أكشن',i:'⚔️'},{id:'horror',n:'رعب وبقاء',i:'🧟'},{id:'open',n:'عالم مفتوح',i:'🗺️'},{id:'light',n:'ألعاب خفيفة',i:'🍃'}];
+var GAMES=[
+ {name:'إلدن رينغ',en:'Elden Ring',desc:'مغامرة أكشن آر بي جي في عالم مفتوح واسع من تصميم فرومسوفتوير وجورج آر آر مارتن.',size:'60 GB',cat:'open',rating:9.6,url:'https://store.steampowered.com/app/1245620',cover:'🗡️',g:['#f59e0b','#78350f'],req:{os:'Windows 10',cpu:'Intel Core i5-8400 / Ryzen 3 3300X',gpu:'GTX 1060 3GB / RX 580 4GB',ram:'12 GB',disk:'60 GB'}},
+ {name:'ريزدنت إيفل 4 ريميك',en:'Resident Evil 4 Remake',desc:'إعادة بناء كاملة للعبة الرعب الأسطورية مع قتال أسرع ومشاهد أكثر كثافة.',size:'60 GB',cat:'horror',rating:9.3,url:'https://store.steampowered.com/app/2050650',cover:'🧟',g:['#ef4444','#450a0a'],req:{os:'Windows 10',cpu:'Ryzen 5 3600 / Core i7 8700',gpu:'GTX 1070 8GB / RX 5700',ram:'16 GB',disk:'60 GB'}},
+ {name:'ذا لاست أوف أس',en:'The Last of Us Part I',desc:'رحلة جويل وإيلي عبر أمريكا بعد الوباء، بسرد سينمائي وقتال بقاء مؤثر.',size:'100 GB',cat:'horror',rating:9.0,url:'https://store.steampowered.com/app/1888930',cover:'🍄',g:['#65a30d','#1a2e05'],req:{os:'Windows 10',cpu:'Ryzen 5 1500X / Core i7-4770K',gpu:'GTX 970 / RX 470',ram:'16 GB',disk:'100 GB'}},
+ {name:'دايز غون',en:'Days Gone',desc:'قاتل جوائز على دراجته في عالم مفتوح تغزوه الحشود المتوحشة.',size:'70 GB',cat:'open',rating:8.5,url:'https://store.steampowered.com/app/1259420',cover:'🏍️',g:['#64748b','#0f172a'],req:{os:'Windows 10',cpu:'Ryzen 5 1500X / Core i5-7500',gpu:'GTX 780 / RX 470',ram:'8 GB',disk:'70 GB'}},
+ {name:'سايبربانك 2077',en:'Cyberpunk 2077',desc:'آر بي جي أكشن في مدينة نايت سيتي المستقبلية بقصص جانبية غنية.',size:'70 GB',cat:'open',rating:8.8,url:'https://store.steampowered.com/app/1091500',cover:'🌆',g:['#facc15','#7e22ce'],req:{os:'Windows 10',cpu:'Core i7-6700 / Ryzen 5 1600',gpu:'GTX 1060 6GB / RX 580',ram:'12 GB',disk:'70 GB'}},
+ {name:'كاونتر سترايك 2',en:'Counter-Strike 2',desc:'لعبة تصويب تنافسية جماعية مجانية بالكامل.',size:'35 GB',cat:'action',rating:8.2,url:'https://store.steampowered.com/app/730',cover:'🔫',g:['#0ea5e9','#1e3a8a'],req:{os:'Windows 10',cpu:'Core i5 750',gpu:'DX11 متوافق، 1 GB',ram:'8 GB',disk:'35 GB'}},
+ {name:'وورفريم',en:'Warframe',desc:'أكشن تعاوني مجاني بقتال سريع وقدرات فضائية وتطوير مستمر.',size:'45 GB',cat:'action',rating:8.6,url:'https://store.steampowered.com/app/230410',cover:'🚀',g:['#06b6d4','#312e81'],req:{os:'Windows 10',cpu:'Core i5-2400',gpu:'GTX 660 / RX 470',ram:'8 GB',disk:'45 GB'}},
+ {name:'هولو نايت',en:'Hollow Knight',desc:'مغامرة ميتروفانيا ثنائية الأبعاد في مملكة حشرات تحت الأرض.',size:'9 GB',cat:'light',rating:9.4,url:'https://store.steampowered.com/app/367520',cover:'🪲',g:['#818cf8','#0f172a'],req:{os:'Windows 7',cpu:'Core 2 Duo E5200',gpu:'GeForce 9800GTX+',ram:'4 GB',disk:'9 GB'}},
+ {name:'ستاردو فالي',en:'Stardew Valley',desc:'عِش حياة المزرعة: ازرع واصطد وتعرّف على أهل القرية.',size:'0.5 GB',cat:'light',rating:9.2,url:'https://store.steampowered.com/app/413150',cover:'🌾',g:['#84cc16','#166534'],req:{os:'Windows Vista',cpu:'2 GHz',gpu:'256 MB فيديو',ram:'2 GB',disk:'0.5 GB'}}
+];
+
+/* ---------- المؤثرات الصوتية ---------- */
+var AC=null,soundOn=true;
+function actx(){if(!AC){var C=window.AudioContext||window.webkitAudioContext;if(C)AC=new C()}if(AC&&AC.state==='suspended')AC.resume();return AC}
+function tone(f1,f2,d,type,v,delay){
+  if(!soundOn)return;var a=actx();if(!a)return;
+  var t=a.currentTime+(delay||0),o=a.createOscillator(),g=a.createGain();
+  o.type=type||'sine';o.frequency.setValueAtTime(f1,t);o.frequency.exponentialRampToValueAtTime(f2,t+d);
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v||.1,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+d);
+  o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+d+.02);
+}
+var SFX={
+  click:function(){tone(2200,1400,.06,'sine',.09);tone(3300,2600,.04,'triangle',.03)},            /* نقرة زجاجية */
+  pop:function(){tone(420,820,.12,'sine',.12);tone(820,1240,.12,'triangle',.05,.05)},              /* فتح */
+  whoosh:function(){if(!soundOn)return;var a=actx();if(!a)return;var n=a.sampleRate*.22,b=a.createBuffer(1,n,a.sampleRate),d=b.getChannelData(0);
+    for(var i=0;i<n;i++)d[i]=(Math.random()*2-1)*(1-i/n);var s=a.createBufferSource(),f=a.createBiquadFilter(),g=a.createGain();
+    s.buffer=b;f.type='bandpass';f.Q.value=1.2;f.frequency.setValueAtTime(2400,a.currentTime);f.frequency.exponentialRampToValueAtTime(300,a.currentTime+.22);
+    g.gain.setValueAtTime(.18,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.22);s.connect(f);f.connect(g);g.connect(a.destination);s.start()}, /* إغلاق */
+  ok:function(){tone(660,660,.09,'sine',.09);tone(990,990,.16,'sine',.09,.08)}
+};
+
+/* ---------- أدوات ---------- */
+var $=function(s){return document.querySelector(s)};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+var st={cat:'all',q:''};
+function catName(id){return CATS.filter(function(c){return c.id===id})[0].n}
+/* تطبيع النص العربي للبحث (يتجاهل التشكيل والهمزات) */
+function norm(s){return String(s).toLowerCase().replace(/[\u064B-\u0652\u0640]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').trim()}
+function list(){
+  var q=norm(st.q);
+  return GAMES.filter(function(g){
+    if(st.cat!=='all'&&g.cat!==st.cat)return false;
+    return !q||norm(g.name+' '+g.en+' '+catName(g.cat)+' '+g.desc).indexOf(q)>-1;
+  });
+}
+
+/* ---------- العرض ---------- */
+function drawCats(){
+  var h=CATS.map(function(c){var n=c.id==='all'?GAMES.length:GAMES.filter(function(g){return g.cat===c.id}).length;
+    return '<button class="cat'+(st.cat===c.id?' on':'')+'" data-cat="'+c.id+'">'+c.i+' '+c.n+'<b>'+n+'</b></button>'}).join('');
+  $('#cats').innerHTML=h;
+  $('#chips').innerHTML=CATS.map(function(c){return '<button class="cat'+(st.cat===c.id?' on':'')+'" data-cat="'+c.id+'">'+c.i+' '+c.n+'</button>'}).join('');
+}
+function render(){
+  var L=list();
+  drawCats();
+  $('#grid').innerHTML=L.length?L.map(function(g){var i=GAMES.indexOf(g);
+    return '<article class="card glass" data-i="'+i+'"><div class="cover" style="background:linear-gradient(150deg,'+g.g[0]+','+g.g[1]+')"><span>'+g.cover+'</span><em>'+catName(g.cat)+'</em></div>'+
+    '<div><h3>'+esc(g.name)+'</h3><small>'+esc(g.en)+'</small></div>'+
+    '<div class="facts"><span>💾 '+esc(g.size)+'</span><span class="r">★ '+Number(g.rating).toFixed(1)+'</span></div>'+
+    '<div class="acts"><button class="btn pri" data-dl="'+i+'">تحميل اللعبة</button><button class="btn" data-rq="'+i+'">متطلبات التشغيل</button></div></article>'}).join('')
+  :'<div class="empty glass"><div>🔎</div><h3>لا توجد نتائج لـ «'+esc(st.q)+'»</h3><p>تأكد من الإملاء أو جرّب اسماً آخر أو غيّر التصنيف.</p><button class="btn pri" data-reset>عرض كل الألعاب</button></div>';
+  $('#secT').textContent=catName(st.cat);$('#secC').textContent=L.length+' لعبة';
+  $('#clr').classList.toggle('show',!!st.q);
+}
+
+/* ---------- النوافذ (منتصف الشاشة) ---------- */
+var ov=$('#ov'),modal=$('#modal'),back=null;
+function openM(h,snd){back=document.activeElement;modal.className='modal glass';modal.innerHTML=h;ov.classList.add('show');(snd||SFX.pop)();var b=modal.querySelector('.btn');if(b)b.focus()}
+function closeM(){if(!ov.classList.contains('show'))return;SFX.whoosh();modal.classList.add('out');setTimeout(function(){ov.classList.remove('show');modal.innerHTML='';if(back&&back.focus)back.focus()},200)}
+var CLOSE='<button class="btn dng" data-close>إغلاق</button>';
+function head(g){return '<div class="mh" style="background:linear-gradient(150deg,'+g.g[0]+','+g.g[1]+')">'+g.cover+'</div><h3>'+esc(g.name)+'</h3><small style="color:var(--muted);direction:ltr;display:block;text-align:right">'+esc(g.en)+'</small>'}
+function reqTable(g){var r=g.req||{};var rows=[['النظام',r.os],['المعالج',r.cpu],['كرت الشاشة',r.gpu],['الرام',r.ram],['المساحة',r.disk||g.size]];
+  return '<table class="req">'+rows.map(function(x){return '<tr><td>'+x[0]+'</td><td style="direction:ltr;text-align:right">'+esc(x[1]||'—')+'</td></tr>'}).join('')+'</table>'}
+function dlModal(i){var g=GAMES[i];
+  openM(head(g)+'<p>'+esc(g.desc)+'</p><div class="facts"><span>💾 '+esc(g.size)+'</span><span class="r">★ '+Number(g.rating).toFixed(1)+'</span></div>'+reqTable(g)+
+  '<div class="note">يفتح الزر الصفحة الرسمية للعبة حيث يمكنك الحصول عليها وتحميلها بشكل قانوني.</div>'+
+  '<div class="mact"><button class="btn pri" data-go="'+i+'">بدء التحميل المباشر</button>'+CLOSE+'</div>')}
+function rqModal(i){var g=GAMES[i];openM(head(g)+'<p>الحد الأدنى لتشغيل اللعبة:</p>'+reqTable(g)+'<div class="mact"><button class="btn pri" data-dl="'+i+'">تحميل اللعبة</button>'+CLOSE+'</div>')}
+function addModal(){
+  openM('<h3>➕ إضافة لعبة جديدة</h3><p>تُضاف اللعبة إلى القائمة أثناء الجلسة. للإضافة الدائمة انسخ كائناً في مصفوفة GAMES.</p>'+
+  '<label class="fld">اسم اللعبة<input id="fN" placeholder="مثال: Hades"></label>'+
+  '<label class="fld">الحجم<input id="fS" placeholder="مثال: 15 GB"></label>'+
+  '<label class="fld">التصنيف<select id="fC">'+CATS.slice(1).map(function(c){return '<option value="'+c.id+'">'+c.n+'</option>'}).join('')+'</select></label>'+
+  '<label class="fld">رابط التحميل الرسمي<input id="fU" type="url" dir="ltr" placeholder="https://..."></label><div id="fE" style="color:var(--danger);font-weight:600;font-size:.85rem"></div>'+
+  '<div class="mact"><button class="btn pri" data-save>حفظ اللعبة</button>'+CLOSE+'</div>')}
+function alertM(ic,t,m){openM('<div class="big">'+ic+'</div><div class="ctr"><h3>'+t+'</h3><p>'+m+'</p></div><div class="mact">'+CLOSE+'</div>',SFX.ok)}
+
+/* ---------- الأحداث ---------- */
+document.addEventListener('click',function(e){
+  var t=e.target,b;
+  if(t===ov){closeM();return}
+  if((b=t.closest('[data-close]'))){closeM();return}
+  if((b=t.closest('[data-cat]'))){SFX.click();st.cat=b.dataset.cat;render();return}
+  if((b=t.closest('[data-dl]'))){e.stopPropagation();SFX.click();if(ov.classList.contains('show')){ov.classList.remove('show')}dlModal(+b.dataset.dl);return}
+  if((b=t.closest('[data-rq]'))){e.stopPropagation();SFX.click();rqModal(+b.dataset.rq);return}
+  if((b=t.closest('[data-go]'))){var g=GAMES[+b.dataset.go];SFX.ok();var w=null;try{w=window.open(g.url,'_blank','noopener')}catch(x){}
+    if(!w){modal.querySelector('.note').innerHTML='تعذّر فتح الرابط تلقائياً. انسخه يدوياً:<br><span dir="ltr" style="word-break:break-all">'+esc(g.url)+'</span>'}return}
+  if((b=t.closest('[data-add]'))){SFX.click();addModal();return}
+  if((b=t.closest('[data-reset]'))){SFX.click();st.q='';st.cat='all';$('#q').value='';render();return}
+  if((b=t.closest('[data-save]'))){
+    var n=$('#fN').value.trim(),u=$('#fU').value.trim(),s=$('#fS').value.trim();
+    if(!n||!/^https?:\/\//i.test(u)){$('#fE').textContent='أدخل اسم اللعبة ورابطاً صحيحاً يبدأ بـ https://';return}
+    GAMES.unshift({name:n,en:n,desc:'لعبة أضفتها بنفسك.',size:s||'—',cat:$('#fC').value,rating:8,url:u,cover:'🎮',g:['#38bdf8','#1e3a8a'],req:{}});
+    st.cat='all';st.q='';$('#q').value='';render();ov.classList.remove('show');modal.innerHTML='';alertM('✅','تمت الإضافة','ظهرت «'+esc(n)+'» في أول القائمة.');return}
+  if((b=t.closest('.card'))){SFX.click();dlModal(+b.dataset.i)}
+});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeM()});
+$('#q').addEventListener('input',function(){st.q=this.value;render()});
+$('#clr').addEventListener('click',function(){SFX.click();st.q='';$('#q').value='';$('#q').focus();render()});
+$('#mute').addEventListener('click',function(){soundOn=!soundOn;this.textContent=soundOn?'🔊':'🔇';if(soundOn)SFX.click()});
+render();
+})();
+</script>
+</body>
+</html>
